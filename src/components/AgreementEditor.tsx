@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition, type ReactNode } from "react";
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition, type ReactNode } from "react";
 import { deleteAgreementAction } from "@/app/actions";
 import type { Role } from "@/lib/templates/types";
 import { EditorProvider, type EditorState } from "./editor-context";
@@ -26,29 +26,207 @@ type Props = {
 const PAGE_W = (210 * 96) / 25.4;
 const PAGE_H = (297 * 96) / 25.4;
 
-function ScaledDoc({ fitWidth, children }: { fitWidth: boolean; children: ReactNode }) {
+const ScaledBody = memo(function ScaledBody({ children }: { children: ReactNode }) {
+  return children;
+});
+
+type PinchAnchor = { docX: number; docY: number; clientX: number; clientY: number };
+
+function touchSpan(touches: TouchList) {
+  const a = touches[0];
+  const b = touches[1];
+  if (!a || !b) return 0;
+  return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+}
+
+function ScaledDoc({
+  fitWidth,
+  onFitWidth,
+  children,
+}: {
+  fitWidth: boolean;
+  onFitWidth: (fitWidth: boolean) => void;
+  children: ReactNode;
+}) {
   const frameRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
+  const [fitScale, setFitScale] = useState(1);
+  const scaleRef = useRef(1);
+  const fitScaleRef = useRef(1);
+  const fitWidthRef = useRef(fitWidth);
+  const manualRef = useRef(false);
+  const pinchingRef = useRef(false);
+  const anchorRef = useRef<PinchAnchor | null>(null);
+  const onFitWidthRef = useRef(onFitWidth);
+  onFitWidthRef.current = onFitWidth;
+
+  const commitScale = useCallback((next: number) => {
+    const clamped = Math.min(1, Math.max(fitScaleRef.current, next));
+    scaleRef.current = clamped;
+    setScale((current) => (Math.abs(current - clamped) < 0.0001 ? current : clamped));
+    return clamped;
+  }, []);
 
   useLayoutEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
-    const apply = () => {
-      const next = frame.clientWidth / PAGE_W;
-      setScale(fitWidth ? Math.min(1, next) : 1);
+    document.documentElement.classList.add("doc-pinch");
+    const measure = () => {
+      const fit = Math.min(1, frame.clientWidth / PAGE_W);
+      fitScaleRef.current = fit;
+      setFitScale((current) => (Math.abs(current - fit) < 0.0001 ? current : fit));
+      if (pinchingRef.current || manualRef.current) {
+        commitScale(scaleRef.current);
+        return;
+      }
+      commitScale(fitWidthRef.current ? fit : 1);
     };
-    apply();
-    const observer = new ResizeObserver(apply);
+    measure();
+    const observer = new ResizeObserver(measure);
     observer.observe(frame);
-    return () => observer.disconnect();
-  }, [fitWidth]);
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("doc-pinch");
+    };
+  }, [commitScale]);
+
+  useLayoutEffect(() => {
+    fitWidthRef.current = fitWidth;
+    if (pinchingRef.current) return;
+    manualRef.current = false;
+    commitScale(fitWidth ? fitScaleRef.current : 1);
+  }, [fitWidth, commitScale]);
+
+  useLayoutEffect(() => {
+    const anchor = anchorRef.current;
+    const scroller = scrollerRef.current;
+    if (!anchor || !scroller || scale <= 0) return;
+    anchorRef.current = null;
+    const width = PAGE_W * scale;
+    const rect = scroller.getBoundingClientRect();
+    const localX = anchor.clientX - rect.left;
+    if (width > scroller.clientWidth + 0.5) {
+      scroller.scrollLeft = anchor.docX * scale - localX;
+    } else {
+      scroller.scrollLeft = 0;
+    }
+    const placed = scroller.getBoundingClientRect();
+    const desiredTop = anchor.clientY - anchor.docY * scale;
+    const delta = placed.top - desiredTop;
+    if (Math.abs(delta) > 0.5) window.scrollBy(0, delta);
+  }, [scale]);
+
+  useEffect(() => {
+    let startDist = 0;
+    let startScale = 1;
+    let listening = false;
+
+    const finish = () => {
+      if (listening) {
+        document.removeEventListener("touchmove", onTouchMove);
+        listening = false;
+      }
+      if (!pinchingRef.current) return;
+      pinchingRef.current = false;
+      startDist = 0;
+      const fit = fitScaleRef.current;
+      const current = scaleRef.current;
+      if (1 - current <= 0.005) {
+        manualRef.current = false;
+        fitWidthRef.current = false;
+        commitScale(1);
+        onFitWidthRef.current(false);
+        return;
+      }
+      if (Math.abs(current - fit) <= 0.005) {
+        manualRef.current = false;
+        fitWidthRef.current = true;
+        commitScale(fit);
+        onFitWidthRef.current(true);
+        return;
+      }
+      manualRef.current = true;
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      if (event.touches.length < 2 || startDist <= 0) return;
+      event.preventDefault();
+      const scroller = scrollerRef.current;
+      const current = scaleRef.current;
+      if (!scroller || current <= 0) return;
+      const next = Math.min(1, Math.max(fitScaleRef.current, startScale * (touchSpan(event.touches) / startDist)));
+      if (Math.abs(next - current) < 0.0005) return;
+      const rect = scroller.getBoundingClientRect();
+      const midX = (event.touches[0].clientX + event.touches[1].clientX) / 2;
+      const midY = (event.touches[0].clientY + event.touches[1].clientY) / 2;
+      const width = PAGE_W * current;
+      const visualLeft =
+        width <= scroller.clientWidth + 0.5 ? (scroller.clientWidth - width) / 2 - scroller.scrollLeft : -scroller.scrollLeft;
+      anchorRef.current = {
+        docX: (midX - rect.left - visualLeft) / current,
+        docY: (midY - rect.top) / current,
+        clientX: midX,
+        clientY: midY,
+      };
+      manualRef.current = true;
+      commitScale(next);
+    };
+
+    const onTouchStart = (event: TouchEvent) => {
+      if (event.touches.length !== 2) return;
+      startDist = touchSpan(event.touches);
+      startScale = scaleRef.current;
+      pinchingRef.current = true;
+      manualRef.current = true;
+      if (listening) return;
+      document.addEventListener("touchmove", onTouchMove, { passive: false });
+      listening = true;
+    };
+
+    const onTouchEnd = (event: TouchEvent) => {
+      if (event.touches.length >= 2) return;
+      finish();
+    };
+
+    const blockGesture = (event: Event) => {
+      event.preventDefault();
+    };
+
+    document.addEventListener("touchstart", onTouchStart, { passive: true });
+    document.addEventListener("touchend", onTouchEnd);
+    document.addEventListener("touchcancel", onTouchEnd);
+    document.addEventListener("gesturestart", blockGesture, { passive: false, capture: true });
+    document.addEventListener("gesturechange", blockGesture, { passive: false, capture: true });
+    return () => {
+      document.removeEventListener("touchstart", onTouchStart);
+      document.removeEventListener("touchend", onTouchEnd);
+      document.removeEventListener("touchcancel", onTouchEnd);
+      document.removeEventListener("gesturestart", blockGesture, { capture: true });
+      document.removeEventListener("gesturechange", blockGesture, { capture: true });
+      if (listening) document.removeEventListener("touchmove", onTouchMove);
+    };
+  }, [commitScale]);
+
+  const wider = scale > fitScale + 0.001;
 
   return (
     <div ref={frameRef} className="scale-frame">
-      <div style={{ height: (PAGE_H * 2 + 18) * scale, overflow: fitWidth ? "hidden" : "auto" }}>
+      <div
+        ref={scrollerRef}
+        style={{
+          height: (PAGE_H * 2 + 18) * scale,
+          width: "100%",
+          maxWidth: "100%",
+          minWidth: 0,
+          overflowX: wider ? "auto" : "hidden",
+          overflowY: "hidden",
+          overscrollBehaviorX: "contain",
+        }}
+      >
         <div style={{ width: PAGE_W * scale, margin: "0 auto" }}>
           <div style={{ width: PAGE_W, transform: `scale(${scale})`, transformOrigin: "top left" }}>
-            {children}
+            <ScaledBody>{children}</ScaledBody>
           </div>
         </div>
       </div>
@@ -287,7 +465,7 @@ export function AgreementEditor(props: Props) {
         {view === "form" ? (
           <MobileForm />
         ) : props.templateSlug === "provisional-tenancy" ? (
-          <ScaledDoc fitWidth={fitWidth}>
+          <ScaledDoc fitWidth={fitWidth} onFitWidth={setFitWidth}>
             <TenancyDocument mode="edit" />
           </ScaledDoc>
         ) : (

@@ -140,7 +140,15 @@ button, input { font-family: inherit; }
   color: #44403c;
 }
 
-.scale-frame { width: min(860px, calc(100% - 16px)); margin: 16px auto; }
+html.doc-pinch,
+html.doc-pinch body {
+  touch-action: pan-x pan-y;
+}
+.scale-frame {
+  width: min(860px, calc(100% - 16px));
+  margin: 16px auto;
+  touch-action: pan-x pan-y;
+}
 
 .mobile-form, .roles { width: min(760px, calc(100% - 24px)); margin: 16px auto 32px; }
 .form-note { color: var(--muted); font-size: 14px; line-height: 1.5; }
