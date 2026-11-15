@@ -16,9 +16,8 @@ export default async function LoginPage({
   return (
     <main className="login-shell">
       <section className="login-card">
-        <h1>臨時租約</h1>
+        <img src="/logo.jpg" alt="Win Win Property Agency Limited" className="logo" />
         <div className="en">Agreement portal</div>
-        <p>Sign in with a Google account from the office whitelist.</p>
         {denied && (
           <p className="banner">
             That Google account is not allowed. Add the address to <code>config/allowed-emails.txt</code> and try again.
