@@ -1,0 +1,6 @@
+# Google accounts allowed to sign in.
+# One email per line. Blank lines and lines starting with # are ignored.
+# Saved agreements are shared by everyone on this list.
+#
+# alex@your-agency.com
+wwpaljason@gmail.com

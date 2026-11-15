@@ -1,0 +1,408 @@
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+.tenancy,
+.tenancy *,
+.tenancy *::before,
+.tenancy *::after {
+  box-sizing: border-box;
+}
+
+.tenancy {
+  font-family: "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", "Heiti TC", Arial, "Helvetica Neue", sans-serif;
+  color: #111;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tenancy .page {
+  width: 210mm;
+  height: 297mm;
+  min-width: 210mm;
+  max-width: 210mm;
+  min-height: 297mm;
+  max-height: 297mm;
+  margin: 0 auto 18px auto;
+  padding: 8mm 10mm 7mm 10mm;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.tenancy .page-content {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tenancy .page-footer {
+  flex-shrink: 0;
+  padding-top: 1.5mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8pt;
+  color: #111;
+}
+
+.tenancy .top-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1px;
+}
+
+.tenancy .copyright-box {
+  font-size: 6.8pt;
+  line-height: 1.22;
+  color: #111;
+  font-weight: 500;
+}
+
+.tenancy .doc-header {
+  text-align: center;
+  margin-top: -12px;
+  margin-bottom: 3px;
+}
+
+.tenancy .doc-header h1 {
+  margin: 0;
+  font-size: 16pt;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  line-height: 1.2;
+  color: #000;
+}
+
+.tenancy .doc-header .en-title {
+  margin: 1px 0 0;
+  font-size: 11pt;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #000;
+}
+
+.tenancy table.agreement-grid {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.tenancy table.agreement-grid td {
+  vertical-align: top;
+  padding: 0.8px 0;
+  font-size: 8.2pt;
+  line-height: 1.24;
+  color: #111;
+}
+
+.tenancy table.agreement-grid td.margin-label {
+  width: 26mm;
+  padding-right: 3mm;
+  font-size: 8pt;
+  font-weight: 600;
+  line-height: 1.22;
+}
+
+.tenancy tr.section-spacer td {
+  padding-top: 3px;
+}
+
+.tenancy .bilingual-block {
+  margin-bottom: 1.5px;
+}
+
+.tenancy .zh-line {
+  font-size: 8.3pt;
+  line-height: 1.26;
+}
+
+.tenancy .en-line {
+  font-size: 7.8pt;
+  line-height: 1.22;
+  color: #1f1f1f;
+}
+
+.tenancy .bilingual-row {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  gap: 3px;
+  margin-bottom: 2px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.tenancy .field-stack {
+  display: inline-flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.tenancy .field-stack .zh-part {
+  font-size: 8.3pt;
+  line-height: 1.26;
+  white-space: nowrap;
+}
+
+.tenancy .field-stack .en-part {
+  font-size: 7.8pt;
+  line-height: 1.22;
+  color: #1f1f1f;
+  white-space: nowrap;
+}
+
+.tenancy .fill-input {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  border-bottom: 0.75pt solid #222;
+  background: #f0f7ff;
+  color: #000;
+  font-family: "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+  font-size: 8.5pt;
+  font-weight: 500;
+  line-height: 1;
+  height: 14.5px;
+  min-height: 14.5px;
+  max-height: 14.5px;
+  padding: 0 3px 1px;
+  margin: 0 1px 1px;
+  border-radius: 2px 2px 0 0;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: baseline;
+}
+
+.tenancy .fill-input.is-editable.role-agent {
+  background: #eff6ff;
+}
+
+.tenancy .fill-input.is-editable.role-landlord {
+  background: #fff7ed;
+}
+
+.tenancy .fill-input.is-editable.role-tenant {
+  background: #ecfdf5;
+}
+
+.tenancy .fill-input.is-editable:focus {
+  background: #dbeafe;
+  border-bottom-color: #1d4ed8;
+}
+
+.tenancy .fill-input.is-locked {
+  background: #f3f4f6;
+  color: #111;
+}
+
+.tenancy .fill-input[data-overflow="1"] {
+  background: #fee2e2;
+  box-shadow: inset 0 -2px 0 #dc2626;
+}
+
+.tenancy .fill-grow {
+  flex: 1 1 0%;
+  min-width: 10mm;
+  width: 0;
+}
+
+.tenancy .w-xs { width: 10mm; flex: 0 0 10mm; }
+.tenancy .w-sm { width: 16mm; flex: 0 0 16mm; }
+.tenancy .w-md { width: 28mm; flex: 0 0 28mm; }
+.tenancy .w-lg { width: 42mm; flex: 0 0 42mm; }
+
+.tenancy .clause-row {
+  display: flex;
+  align-items: flex-start;
+}
+
+.tenancy .clause-num {
+  width: 5.5mm;
+  flex-shrink: 0;
+  font-weight: 600;
+  font-size: 8.3pt;
+}
+
+.tenancy .subclause-num {
+  width: 6.5mm;
+  flex-shrink: 0;
+  font-size: 8.3pt;
+}
+
+.tenancy .clause-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.tenancy .strike-opt {
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.tenancy .strike-opt[role="button"] {
+  cursor: pointer;
+}
+
+.tenancy .strike-opt[role="button"]:hover {
+  background: #fef3c7;
+}
+
+.tenancy .strike-opt.struck {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.1pt;
+  text-decoration-color: #111;
+  color: #777;
+}
+
+.tenancy .remarks-lines {
+  margin-top: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tenancy .remark-input {
+  width: 100%;
+  height: 16px;
+  min-height: 16px;
+  max-height: 16px;
+}
+
+.tenancy .on-behalf-header {
+  text-align: center;
+  font-weight: 700;
+  font-size: 9pt;
+  margin: 5mm 0 0;
+  width: 100%;
+}
+
+.tenancy .sig-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-top: 24mm;
+}
+
+.tenancy .sig-table td {
+  width: 33.33%;
+  vertical-align: top;
+  padding: 0 4mm;
+  font-size: 8.4pt;
+  line-height: 1.3;
+}
+
+.tenancy .sig-table td:first-child { padding-left: 0; }
+.tenancy .sig-table td:last-child { padding-right: 0; }
+
+.tenancy .sig-line-top {
+  border-top: 0.75pt solid #222;
+  padding-top: 2px;
+  text-align: center;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.tenancy .sig-field {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 3px;
+  font-size: 8.2pt;
+  white-space: nowrap;
+}
+
+.tenancy .sig-field span.lbl {
+  flex-shrink: 0;
+  margin-right: 2px;
+}
+
+.tenancy .receipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-top: 8mm;
+  font-size: 8.3pt;
+  line-height: 1.28;
+}
+
+.tenancy .receipt-table td {
+  vertical-align: bottom;
+  padding: 2px 0;
+}
+
+.tenancy .receipt-left {
+  width: 60%;
+  padding-right: 8mm;
+}
+
+.tenancy .receipt-right { width: 40%; }
+
+.tenancy .wet-sign {
+  flex: 1 1 auto;
+  border-bottom: 0.75pt solid #222;
+  height: 14px;
+  margin-left: 4px;
+}
+
+.print-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 210mm;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media print {
+  html, body {
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-root {
+    position: static;
+    visibility: visible;
+    pointer-events: auto;
+    width: auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  .tenancy .page {
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .tenancy .page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .tenancy .fill-input,
+  .tenancy .fill-input[data-overflow="1"] {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>臨時租約 Provisional Tenancy Agreement (Fillable A4)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", "Heiti TC", "Arial", "Helvetica Neue", sans-serif;
+    color: #111111;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html {
+    background-color: #e5e7eb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html {
+      background-color: #1f242d;
+    }
+  }
+
+  body {
+    padding: 64px 0 36px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Screen Toolbar (Hidden when printing) */
+  .toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  .toolbar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .toolbar-hint {
+    font-size: 11.5px;
+    font-weight: 400;
+    color: #4b5563;
+    background: #f3f4f6;
+    padding: 3px 8px;
+    border-radius: 5px;
+  }
+
+  .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn {
+    appearance: none;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #1f2937;
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+    font-family: inherit;
+  }
+
+  .btn:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+  }
+
+  .btn-primary {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    color: #ffffff;
+  }
+
+  .btn-primary:hover {
+    background: #1e40af;
+    border-color: #1e40af;
+  }
+
+  .btn-danger {
+    color: #b91c1c;
+    border-color: #fecaca;
+    background: #fef2f2;
+  }
+
+  .btn-danger:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+  }
+
+  /* Custom Confirmation Modal (No alert/confirm used) */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(17, 24, 39, 0.45);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-backdrop.open {
+    display: flex;
+  }
+
+  .modal-box {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px 24px;
+    width: 340px;
+    max-width: 90vw;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+
+  .modal-box h3 {
+    margin: 0 0 8px 0;
+    font-size: 15px;
+    color: #111827;
+  }
+
+  .modal-box p {
+    margin: 0 0 18px 0;
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.45;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* Strict A4 Page Container */
+  .page {
+    width: 210mm;
+    height: 297mm;
+    min-width: 210mm;
+    max-width: 210mm;
+    min-height: 297mm;
+    max-height: 297mm;
+    margin: 0 auto 18px auto;
+    padding: 8mm 10mm 7mm 10mm;
+    background-color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-content {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .page-footer {
+    flex-shrink: 0;
+    padding-top: 1.5mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8pt;
+    color: #111111;
+  }
+
+  /* Top Copyright Notice & Header */
+  .top-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1px;
+  }
+
+  .copyright-box {
+    font-size: 6.8pt;
+    line-height: 1.22;
+    color: #0284c7;
+    font-weight: 500;
+  }
+
+  .doc-header {
+    text-align: center;
+    margin-top: -12px;
+    margin-bottom: 3px;
+  }
+
+  .doc-header h1 {
+    margin: 0;
+    font-size: 16pt;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    line-height: 1.2;
+    color: #000000;
+  }
+
+  .doc-header .en-title {
+    margin: 1px 0 0 0;
+    font-size: 11pt;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #000000;
+  }
+
+  /* Main Bilingual Grid Table */
+  table.agreement-grid {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  table.agreement-grid td {
+    vertical-align: top;
+    padding: 0.8px 0;
+    font-size: 8.2pt;
+    line-height: 1.24;
+    color: #111111;
+  }
+
+  table.agreement-grid td.margin-label {
+    width: 26mm;
+    padding-right: 3mm;
+    font-size: 8pt;
+    font-weight: 600;
+    line-height: 1.22;
+    color: #111111;
+  }
+
+  table.agreement-grid td.main-body {
+    width: auto;
+  }
+
+  tr.section-spacer td {
+    padding-top: 3px;
+  }
+
+  /* Bilingual Stacked Blocks & Rows */
+  .bilingual-block {
+    margin-bottom: 1.5px;
+  }
+
+  .zh-line {
+    font-size: 8.3pt;
+    line-height: 1.26;
+    color: #111111;
+  }
+
+  .en-line {
+    font-size: 7.8pt;
+    line-height: 1.22;
+    color: #1f1f1f;
+  }
+
+  .bilingual-row {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+    gap: 3px;
+    margin-bottom: 2px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .field-stack {
+    display: inline-flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .field-stack .zh-part {
+    font-size: 8.3pt;
+    line-height: 1.26;
+    white-space: nowrap;
+  }
+
+  .field-stack .en-part {
+    font-size: 7.8pt;
+    line-height: 1.22;
+    color: #1f1f1f;
+    white-space: nowrap;
+  }
+
+  /* Fixed-Dimension Fillable Inputs (Never expand or wrap) */
+  .fill-input {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-bottom: 0.75pt solid #222222;
+    background-color: #f0f7ff;
+    color: #000000;
+    font-family: "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", "Arial", sans-serif;
+    font-size: 8.5pt;
+    font-weight: 500;
+    line-height: 1;
+    height: 14.5px;
+    min-height: 14.5px;
+    max-height: 14.5px;
+    padding: 0 3px 1px 3px;
+    margin: 0 1px 1px 1px;
+    border-radius: 2px 2px 0 0;
+    outline: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: baseline;
+    transition: background-color 0.15s ease;
+  }
+
+  .fill-input:focus {
+    background-color: #dbeafe;
+    border-bottom-color: #1d4ed8;
+  }
+
+  .fill-grow {
+    flex: 1 1 0%;
+    min-width: 10mm;
+    width: 0;
+  }
+
+  .w-xs { width: 10mm; flex: 0 0 10mm; }
+  .w-sm { width: 16mm; flex: 0 0 16mm; }
+  .w-md { width: 28mm; flex: 0 0 28mm; }
+  .w-lg { width: 42mm; flex: 0 0 42mm; }
+  .w-xl { width: 56mm; flex: 0 0 56mm; }
+
+  .clause-row {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .clause-num {
+    width: 5.5mm;
+    flex-shrink: 0;
+    font-weight: 600;
+    font-size: 8.3pt;
+  }
+
+  .subclause-num {
+    width: 6.5mm;
+    flex-shrink: 0;
+    font-size: 8.3pt;
+  }
+
+  .clause-content {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Interactive Strikethrough Options (* 刪去不適用者) */
+  .strike-opt {
+    cursor: pointer;
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background-color 0.12s ease, color 0.12s ease;
+  }
+
+  .strike-opt:hover {
+    background-color: #fef3c7;
+  }
+
+  .strike-opt.struck {
+    text-decoration: line-through;
+    text-decoration-thickness: 1.1pt;
+    text-decoration-color: #111111;
+    color: #777777;
+  }
+
+  /* Page 2 Remarks & Signature Area */
+  .remarks-lines {
+    margin-top: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .remark-input {
+    width: 100%;
+    height: 16px;
+    min-height: 16px;
+    max-height: 16px;
+  }
+
+  .on-behalf-header {
+    text-align: center;
+    font-weight: 700;
+    font-size: 9pt;
+    margin: 5mm 0 0 0;
+    color: #111111;
+    width: 100%;
+  }
+
+  /* Ample Signature Space (~24mm clear room) */
+  .sig-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-top: 24mm;
+  }
+
+  .sig-table td {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 0 4mm;
+    font-size: 8.4pt;
+    line-height: 1.3;
+  }
+
+  .sig-table td:first-child {
+    padding-left: 0;
+  }
+
+  .sig-table td:last-child {
+    padding-right: 0;
+  }
+
+  .sig-line-top {
+    border-top: 0.75pt solid #222222;
+    padding-top: 2px;
+    text-align: center;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  .sig-field {
+    display: flex;
+    align-items: flex-end;
+    margin-top: 3px;
+    font-size: 8.2pt;
+    white-space: nowrap;
+  }
+
+  .sig-field span.lbl {
+    flex-shrink: 0;
+    margin-right: 2px;
+  }
+
+  /* Deposit Receipt Section */
+  .receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-top: 8mm;
+    font-size: 8.3pt;
+    line-height: 1.28;
+  }
+
+  .receipt-table td {
+    vertical-align: bottom;
+    padding: 2px 0;
+  }
+
+  .receipt-left {
+    width: 60%;
+    padding-right: 8mm;
+  }
+
+  .receipt-right {
+    width: 40%;
+  }
+
+  /* Strict Print Rules */
+  @media print {
+    html, body {
+      background: #ffffff !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: block !important;
+    }
+
+    .no-print, .toolbar, .modal-backdrop {
+      display: none !important;
+    }
+
+    .page {
+      width: 210mm !important;
+      height: 297mm !important;
+      margin: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      overflow: hidden !important;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .page:last-of-type {
+      page-break-after: auto;
+      break-after: auto;
+    }
+
+    .fill-input {
+      background-color: transparent !important;
+      border-radius: 0 !important;
+    }
+
+    .strike-opt:hover {
+      background-color: transparent !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Screen-only Interactive Toolbar -->
+<div class="toolbar no-print">
+  <div class="toolbar-title">
+    <span>臨時租約 Provisional Tenancy Agreement (A4 Fillable)</span>
+    <span class="toolbar-hint">提示：點擊帶有 * 號之選項（如 業主 / 租客）可切換刪除線</span>
+  </div>
+  <div class="toolbar-actions">
+    <button type="button" class="btn btn-danger" id="btnReset">清除重填 Clear</button>
+    <button type="button" class="btn btn-primary" id="btnPrint">列印 / 儲存 PDF (A4) Print</button>
+  </div>
+</div>
+
+<!-- Custom Reset Confirmation Modal -->
+<div class="modal-backdrop no-print" id="resetModal">
+  <div class="modal-box">
+    <h3>清除所有填寫內容？</h3>
+    <p>此操作將會清空所有已輸入的文字及刪除線標記。<br>Clear all filled fields and strikethrough selections?</p>
+    <div class="modal-actions">
+      <button type="button" class="btn" id="btnCancelReset">取消 Cancel</button>
+      <button type="button" class="btn btn-danger" id="btnConfirmReset">確認清除 Clear</button>
+    </div>
+  </div>
+</div>
+
+<form id="agreementForm" autocomplete="off">
+
+<!-- ==================== PAGE 1 ==================== -->
+<section class="page" id="page1">
+  <div class="page-content">
+
+    <header class="doc-header">
+      <h1>臨時租約</h1>
+      <div class="en-title">PROVISIONAL TENANCY AGREEMENT</div>
+    </header>
+
+    <table class="agreement-grid">
+      <tbody>
+        <!-- Date -->
+        <tr>
+          <td class="margin-label"></td>
+          <td class="main-body">
+            <div class="bilingual-row">
+              <span class="field-stack">
+                <span class="zh-part">此合約訂於</span>
+                <span class="en-part">This AGREEMENT is made on</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Agreement Date">
+              <span class="field-stack">
+                <span class="zh-part">&nbsp;</span>
+                <span class="en-part">BETWEEN</span>
+              </span>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Landlord -->
+        <tr class="section-spacer">
+          <td class="margin-label">業主<br>Landlord</td>
+          <td class="main-body">
+            <div class="bilingual-row">
+              <span class="field-stack">
+                <span class="zh-part">合約第一方為</span>
+                <span class="en-part">the first party</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Landlord Name">
+              <span class="field-stack">
+                <span class="zh-part">持有香港身份證 /</span>
+                <span class="en-part">(holder of Hong Kong Identity Card No. /</span>
+              </span>
+              <input type="text" class="fill-input w-md" aria-label="Landlord HKID">
+            </div>
+            <div class="bilingual-row">
+              <span class="field-stack">
+                <span class="zh-part">商業登記證號碼</span>
+                <span class="en-part">Business Registration No.</span>
+              </span>
+              <input type="text" class="fill-input w-lg" aria-label="Landlord BR No">
+              <span class="field-stack">
+                <span class="zh-part">地址在</span>
+                <span class="en-part">) of</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Landlord Address 1">
+            </div>
+            <div class="bilingual-row">
+              <input type="text" class="fill-input fill-grow" aria-label="Landlord Address 2">
+              <span class="field-stack">
+                <span class="zh-part">以下稱 "業主"</span>
+                <span class="en-part">(hereinafter called " the Landlord ") and;</span>
+              </span>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Tenant -->
+        <tr class="section-spacer">
+          <td class="margin-label">租客<br>Tenant</td>
+          <td class="main-body">
+            <div class="bilingual-row">
+              <span class="field-stack">
+                <span class="zh-part">合約第二方為</span>
+                <span class="en-part">the second party</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Tenant Name">
+              <span class="field-stack">
+                <span class="zh-part">持有香港身份證 /</span>
+                <span class="en-part">(holder of Hong Kong Identity Card No. /</span>
+              </span>
+              <input type="text" class="fill-input w-md" aria-label="Tenant HKID">
+            </div>
+            <div class="bilingual-row">
+              <span class="field-stack">
+                <span class="zh-part">商業登記證號碼</span>
+                <span class="en-part">Business Registration No.</span>
+              </span>
+              <input type="text" class="fill-input w-lg" aria-label="Tenant BR No">
+              <span class="field-stack">
+                <span class="zh-part">地址在</span>
+                <span class="en-part">) of</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Tenant Address 1">
+            </div>
+            <div class="bilingual-row">
+              <input type="text" class="fill-input fill-grow" aria-label="Tenant Address 2">
+              <span class="field-stack">
+                <span class="zh-part">以下稱 "租客"</span>
+                <span class="en-part">(hereinafter called " the Tenant ") and;</span>
+              </span>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Agent -->
+        <tr class="section-spacer">
+          <td class="margin-label">代理<br>Agent</td>
+          <td class="main-body">
+            <div class="bilingual-row">
+              <span class="field-stack">
+                <span class="zh-part">合約第三方為</span>
+                <span class="en-part">the third party</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Agent Name">
+            </div>
+            <div class="bilingual-row">
+              <span class="field-stack">
+                <span class="zh-part">持有商業登記證號碼</span>
+                <span class="en-part">holder of Business Registration No.</span>
+              </span>
+              <input type="text" class="fill-input w-md" aria-label="Agent BR No">
+              <span class="field-stack">
+                <span class="zh-part">及持有地產代理(公司)牌照號碼</span>
+                <span class="en-part">and holder of Estate Agent (Company) Licence No.</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Agent Licence No">
+            </div>
+            <div class="bilingual-row">
+              <span class="field-stack">
+                <span class="zh-part">註冊地址在</span>
+                <span class="en-part">of</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Agent Address">
+              <span class="field-stack">
+                <span class="zh-part">以下稱 "代理"</span>
+                <span class="en-part">(hereinafter called " the Agent ")</span>
+              </span>
+            </div>
+            <div class="bilingual-block" style="margin-top: 2px;">
+              <div class="zh-line">合約三方茲同意租約條款如下：-</div>
+              <div class="en-line">NOW IT IS HEREBY AGREED as follows:-</div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 1: Premises -->
+        <tr class="section-spacer">
+          <td class="margin-label">物業<br>Premises</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">1.</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">業主及租客雙方通過代理，同意以下列條款出租及租入</div>
+                  <div class="en-line">The Landlord agrees to let and the Tenant agrees to take, through the Agent subject to the terms and conditions herein contained</div>
+                </div>
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">&nbsp;</span>
+                    <span class="en-part">all that</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Premises Address">
+                  <span class="field-stack">
+                    <span class="zh-part">以下稱 "該物業"</span>
+                    <span class="en-part">(hereinafter called "the said Premises")</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 2(a): Term of Tenancy & Break Clause -->
+        <tr class="section-spacer">
+          <td class="margin-label">租期<br>Term of Tenancy<br>退租權<br>Break Clause</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">2.</div>
+              <div class="subclause-num">a) i)</div>
+              <div class="clause-content">
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">租期由</span>
+                    <span class="en-part">The term of tenancy is from</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Tenancy Start Date">
+                  <span class="field-stack">
+                    <span class="zh-part">至</span>
+                    <span class="en-part">to</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Tenancy End Date">
+                  <span class="field-stack">
+                    <span class="zh-part">包括首尾日期</span>
+                    <span class="en-part">both days inclusive.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="clause-row">
+              <div class="clause-num"></div>
+              <div class="subclause-num">*ii)</div>
+              <div class="clause-content">
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">租客住滿</span>
+                    <span class="en-part">After the first</span>
+                  </span>
+                  <input type="text" class="fill-input w-xs" aria-label="Break Fixed Months">
+                  <span class="field-stack">
+                    <span class="zh-part">個月後 *<span class="strike-opt">業主</span> / <span class="strike-opt">租客</span> / <span class="strike-opt">業主或租客</span>有權提早終止租約</span>
+                    <span class="en-part">months of the tenancy, *<span class="strike-opt">the Landlord</span> / <span class="strike-opt">the Tenant</span> / <span class="strike-opt">either the Landlord or the Tenant</span> is entitled</span>
+                  </span>
+                </div>
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">唯必須以</span>
+                    <span class="en-part">To terminate the tenancy by serving a</span>
+                  </span>
+                  <input type="text" class="fill-input w-xs" aria-label="Break Notice Months">
+                  <span class="field-stack">
+                    <span class="zh-part">個月書面通知 *<span class="strike-opt">業主</span> / <span class="strike-opt">租客</span> / <span class="strike-opt">業主或租客</span></span>
+                    <span class="en-part">months' prior notice in writing to *<span class="strike-opt">the Landlord</span> / <span class="strike-opt">the Tenant</span> / <span class="strike-opt">the Landlord or the Tenant</span></span>
+                  </span>
+                </div>
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">或支付相當於</span>
+                    <span class="en-part">or by paying a sum equivalent to</span>
+                  </span>
+                  <input type="text" class="fill-input w-xs" aria-label="Break Lieu Months">
+                  <span class="field-stack">
+                    <span class="zh-part">個月租金之代通知金，唯租約期</span>
+                    <span class="en-part">month's rental in lieu of the notice and the length of the tenancy in</span>
+                  </span>
+                </div>
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">在任何情況下不得少於</span>
+                    <span class="en-part">any event shall not be less than</span>
+                  </span>
+                  <input type="text" class="fill-input w-xs" aria-label="Minimum Tenancy Months">
+                  <span class="field-stack">
+                    <span class="zh-part">個月包括</span>
+                    <span class="en-part">months inclusive of</span>
+                  </span>
+                  <input type="text" class="fill-input w-xs" aria-label="Inclusive Notice Months">
+                  <span class="field-stack">
+                    <span class="zh-part">個月書面通知期。</span>
+                    <span class="en-part">month's written notice.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 2(b): Monthly Rental & Rent Free Period -->
+        <tr class="section-spacer">
+          <td class="margin-label">每月租金<br>Monthly Rental<br>免租期<br>Rent Free Period</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num"></div>
+              <div class="subclause-num">b) i)</div>
+              <div class="clause-content">
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">每個月租金為港幣</span>
+                    <span class="en-part">The monthly rent is HK$</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Monthly Rent HKD">
+                  <span class="field-stack">
+                    <span class="zh-part">(*<span class="strike-opt">包括</span> / <span class="strike-opt">不包括</span>差餉、管理費及地租) 須每月以上期方式繳付</span>
+                    <span class="en-part">(*<span class="strike-opt">inclusive</span>/<span class="strike-opt">exclusive</span> of rates, management fees and government</span>
+                  </span>
+                </div>
+                <div class="en-line" style="margin-top: -1px; margin-bottom: 1.5px;">rent) to be paid in advance.</div>
+              </div>
+            </div>
+            <div class="clause-row">
+              <div class="clause-num"></div>
+              <div class="subclause-num">*ii)</div>
+              <div class="clause-content">
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">免租期為</span>
+                    <span class="en-part">The rent free period is</span>
+                  </span>
+                  <input type="text" class="fill-input w-sm" aria-label="Rent Free Days">
+                  <span class="field-stack">
+                    <span class="zh-part">天 由</span>
+                    <span class="en-part">day(s) from</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Rent Free Start Date">
+                  <span class="field-stack">
+                    <span class="zh-part">至</span>
+                    <span class="en-part">to</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Rent Free End Date">
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">免租期內 *<span class="strike-opt">業主</span> / <span class="strike-opt">租客</span>負責支付差餉、管理費及地租。</div>
+                  <div class="en-line">During the rent free period, *<span class="strike-opt">the Landlord</span> / <span class="strike-opt">the Tenant</span> shall be responsible for paying rates, management fees and government rent</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 2(c): Initial Deposit & Deposit -->
+        <tr class="section-spacer">
+          <td class="margin-label">臨時訂金<br>Initial Deposit<br>按金<br>Deposit</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num"></div>
+              <div class="subclause-num">c) i)</div>
+              <div class="clause-content">
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">臨時訂金港幣</span>
+                    <span class="en-part">An initial deposit of HK$</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Initial Deposit HKD">
+                  <span class="field-stack">
+                    <span class="zh-part">在簽署本合約時須由租客付清予業主</span>
+                    <span class="en-part">shall be paid by the Tenant to the Landlord upon signing of this Agreement.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="clause-row">
+              <div class="clause-num"></div>
+              <div class="subclause-num">ii)</div>
+              <div class="clause-content">
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">按金餘額港幣</span>
+                    <span class="en-part">An further sum of HK$</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Deposit Balance HKD">
+                  <span class="field-stack">
+                    <span class="zh-part">連同一個月上期租金港幣</span>
+                    <span class="en-part">as the balance of deposit together with another sum of HK$</span>
+                  </span>
+                  <input type="text" class="fill-input w-md" aria-label="Advance Rent HKD">
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">須由租客在簽署正式租約時付清予業主而正式租約</div>
+                  <div class="en-line">as one month's rental payment in advance shall be paid by the Tenant to the Landlord upon signing of the Formal</div>
+                </div>
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">必須前往</span>
+                    <span class="en-part">Tenancy Agreement at</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Formal Signing Location">
+                  <span class="field-stack">
+                    <span class="zh-part">及於</span>
+                    <span class="en-part">on or before</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Formal Signing Date">
+                  <span class="field-stack">
+                    <span class="zh-part">或之前簽署。</span>
+                    <span class="en-part">&nbsp;</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 3: Stamp Duty -->
+        <tr class="section-spacer">
+          <td class="margin-label"></td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">3.</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">業主及租客須平均支付正式租約之厘印費。</div>
+                  <div class="en-line">The Landlord and the Tenant shall equally share the stamp duty of the Formal Tenancy Agreement.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 4: Use -->
+        <tr class="section-spacer">
+          <td class="margin-label">用途<br>Use</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">4.</div>
+              <div class="clause-content">
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">該物業除作為</span>
+                    <span class="en-part">The said Premises shall not be used for any purpose other than for</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Premises Permitted Use">
+                  <span class="field-stack">
+                    <span class="zh-part">用途外，不得作其他用途。</span>
+                    <span class="en-part">purpose.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 5: Not to Assign -->
+        <tr class="section-spacer">
+          <td class="margin-label">不得轉讓<br>Not to Assign</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">5.</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">租客在租期內不得將該物業或任何部分轉讓或分租或將其使用權交予他人。</div>
+                  <div class="en-line">The Tenant shall not assign or sublet or part with possession of the said Premises or any part thereof during the term of tenancy.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 6: Expenses -->
+        <tr class="section-spacer">
+          <td class="margin-label">雜費<br>Expenses</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">6.</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">交吉前有關該物業之所有雜費 (包括水、電、煤氣、差餉、管理費及地租) 由業主負責。</div>
+                  <div class="en-line">Before delivery of vacant possession, all expenses of the said Premises (including water, electricity, gas charge, rates, management fees and government rent) shall be paid by the Landlord.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 7: Landlord Fails to Perform -->
+        <tr class="section-spacer">
+          <td class="margin-label">業主悔約<br>Landlord Fails<br>to Perform</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">7.</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">如業主在收取臨時訂金後，不依合約之條款將該物業租予租客，</div>
+                  <div class="en-line">The Landlord after receiving the initial deposit paid hereunder fail to let the said Premises to the Tenant in the manner herein</div>
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">則業主除須退還租客所付之臨時訂金全數外，並須以同等數目之金額賠償予租客，</div>
+                  <div class="en-line">contained, the Landlord shall immediately compensate the Tenant with a refund of the initial deposit together with a sum</div>
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">唯租客不得再向業主追究任何責任，包括其他賠償及申請強制執行令。</div>
+                  <div class="en-line">equivalent to the amount of the initial deposit as liquidated damages and the Tenant shall not take any further action to claim for damages or to enforce specific performance.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="page-footer">
+    <span>* 刪去不適用者 &nbsp;&nbsp;&nbsp;&nbsp; To be deleted where inapplicable</span>
+    <span></span>
+  </footer>
+</section>
+
+<!-- ==================== PAGE 2 ==================== -->
+<section class="page" id="page2">
+  <div class="page-content">
+
+    <table class="agreement-grid">
+      <tbody>
+        <!-- Clause 8: Tenant Fails to Perform -->
+        <tr>
+          <td class="margin-label">租客悔約<br>Tenant Fails to Perform</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">8.</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">如租客未能履行本合約之條款租入該物業，業主除將租客已付之臨時訂金沒收外，</div>
+                  <div class="en-line">Should the Tenant fail to take up the tenancy of the said premises in the manner herein contained, the initial deposit shall be</div>
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">並有權將該物業再行出租予他人，惟業主不可為此向租客追究任何責任或</div>
+                  <div class="en-line">forfeited to the Landlord and the Landlord shall then be entitled at his absolute discretion to let the said premises to anyone he</div>
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">要求任何賠償及申請強制執行令。</div>
+                  <div class="en-line">thinks fit and the Landlord shall not sue the Tenant for any liabilities and / for damages or to enforce specific performance.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 9: Agent's Commission -->
+        <tr class="section-spacer">
+          <td class="margin-label">代理佣金<br>Agent's Commission</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">9.</div>
+              <div class="clause-content">
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">基於代理在促成該物業租賃中所提供之服務，代理有權向業主收取港幣</span>
+                    <span class="en-part">In consideration of the service rendered by the Agent, the Agent shall be entitled to receive HK$</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Landlord Commission HKD">
+                </div>
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">並向租方收取港幣</span>
+                    <span class="en-part">from the Landlord and HK$</span>
+                  </span>
+                  <input type="text" class="fill-input w-lg" aria-label="Tenant Commission HKD">
+                  <span class="field-stack">
+                    <span class="zh-part">作為佣金，該等佣金須於簽署正式租約</span>
+                    <span class="en-part">from the Tenant as commission. Such commission shall be paid on or</span>
+                  </span>
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">之時或之前繳付。</div>
+                  <div class="en-line">before the date of signing the Formal Tenancy Agreement.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 10: Compensation to Agent -->
+        <tr class="section-spacer">
+          <td class="margin-label">代理之賠償<br>Compensation to Agent</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">10.</div>
+              <div class="subclause-num">a)</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">無論在任何情況下，若業主或租客未能履行本合約之條款租出或租入該物業，</div>
+                  <div class="en-line">If in any case either the Landlord or the Tenant fails to let or take up the Tenancy of the said premises in the manner herein</div>
+                </div>
+                <div class="bilingual-row">
+                  <span class="field-stack">
+                    <span class="zh-part">則悔約的一方須即時付予代理港幣</span>
+                    <span class="en-part">contained, the defaulting party/parties shall compensate at once the Agent HK$</span>
+                  </span>
+                  <input type="text" class="fill-input fill-grow" aria-label="Agent Compensation HKD">
+                  <span class="field-stack">
+                    <span class="zh-part">作為賠償代理之損失。</span>
+                    <span class="en-part">as liquidated damages.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="clause-row">
+              <div class="clause-num"></div>
+              <div class="subclause-num">b)</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">簽署合約後如業主及租客雙方未得代理同意而協議取消本合約，</div>
+                  <div class="en-line">Should the Landlord and the Tenant after signing this Agreement, both agree to cancel this Agreement without the consent of</div>
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">則雙方將同時及分別成為本合約之悔約者，</div>
+                  <div class="en-line">the Agent, they will jointly and severally become the defaulting parties of this Agreement and will still be liable for the</div>
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">並仍須各自負責付予上述佣金。</div>
+                  <div class="en-line">payment of their own commission mentioned herein before.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 11: Appointment to Agent -->
+        <tr class="section-spacer">
+          <td class="margin-label">委任代理<br>Appointment to Agent</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">*11.</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">茲聲明本合約之代理為<span class="strike-opt">雙方代理</span> / <span class="strike-opt">只是業主代理</span> / <span class="strike-opt">只是租客代理</span>。</div>
+                  <div class="en-line">It is hereby declared that the Agent is the Agent <span class="strike-opt">for both the Landlord and the Tenant</span> / <span class="strike-opt">for the Landlord only</span> / <span class="strike-opt">for the Tenant only</span>.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 12: Liabilities -->
+        <tr class="section-spacer">
+          <td class="margin-label">責任<br>Liabilities</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">12.</div>
+              <div class="subclause-num">a)</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">如業主或租客是有限公司而不依本合約之條款租出或租入該物業，代表該</div>
+                  <div class="en-line">Should the Landlord or the Tenant be a limited company which fails to let or take up the tenancy of the said Premises, the</div>
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">有限公司簽署的人須負責支付及承擔代理應收之所有佣金。</div>
+                  <div class="en-line">person(s) who signed this Agreement on behalf of the limited company shall be personally liable for all commission due to the Agent.</div>
+                </div>
+              </div>
+            </div>
+            <div class="clause-row">
+              <div class="clause-num"></div>
+              <div class="subclause-num">b)</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">如本合約由業主或租客的代理人或授權人簽署，則代理人或授權人須承擔</div>
+                  <div class="en-line">Should the signatory be donee(s) or attorney(s) of the Landlord / Tenant, the donee(s) or attorney(s) shall be personally</div>
+                </div>
+                <div class="bilingual-block">
+                  <div class="zh-line">本合約之所有責任。</div>
+                  <div class="en-line">liable for all the liabilities from this Agreement.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 13: Declaration -->
+        <tr class="section-spacer">
+          <td class="margin-label">宣稱<br>Declaration</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">13.</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">業主宣稱其為該物業之唯一業主或業主已得其他聯名業主之同意。</div>
+                  <div class="en-line">The Landlord declares that he/she is the sole registered owner of the said premises or otherwise he/she has the consent and approval of the other joint owner(s).</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 14: Prior Negotiations -->
+        <tr class="section-spacer">
+          <td class="margin-label">過往談判<br>Prior Negotiations</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">14.</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">本合約取代三方過往所有之談判、或聲稱及理解。</div>
+                  <div class="en-line">This Agreement supersedes all prior negotiations, representation and understanding of the parties hereto.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 15: Interpretation -->
+        <tr class="section-spacer">
+          <td class="margin-label">解釋<br>Interpretation</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">15.</div>
+              <div class="clause-content">
+                <div class="bilingual-block">
+                  <div class="zh-line">如果本合約的中英文版本有衝突，本合約以中文為準。</div>
+                  <div class="en-line">In case of conflict between the English &amp; Chinese Version of this Agreement, the Chinese Version shall prevail.</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Clause 16: Remarks (Strictly 3 fixed single-line inputs so layout never shifts) -->
+        <tr class="section-spacer">
+          <td class="margin-label">備註<br>Remarks</td>
+          <td class="main-body">
+            <div class="clause-row">
+              <div class="clause-num">16.</div>
+              <div class="clause-content">
+                <div class="remarks-lines">
+                  <input type="text" class="fill-input remark-input" aria-label="Remarks Line 1">
+                  <input type="text" class="fill-input remark-input" aria-label="Remarks Line 2">
+                  <input type="text" class="fill-input remark-input" aria-label="Remarks Line 3">
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Full-Width Centered Header -->
+    <div class="on-behalf-header">For and on behalf of</div>
+
+    <!-- Execution / Signature Blocks with Ample Room -->
+    <table class="sig-table">
+      <tbody>
+        <tr>
+          <td>
+            <div class="sig-line-top">業主簽署接受<br>Signed by the Landlord</div>
+            <div class="sig-field"><span class="lbl">姓名 Name :</span><input type="text" class="fill-input fill-grow" aria-label="Signatory Landlord Name"></div>
+            <div class="sig-field"><span class="lbl">身份證號碼 I.D.No.:</span><input type="text" class="fill-input fill-grow" aria-label="Signatory Landlord ID"></div>
+          </td>
+          <td>
+            <div class="sig-line-top">代理簽署接受<br>Signed by the Agent</div>
+            <div class="sig-field"><span class="lbl">姓名 Name :</span><input type="text" class="fill-input fill-grow" aria-label="Signatory Agent Name"></div>
+            <div class="sig-field"><span class="lbl">牌照號碼 Licence No.:</span><input type="text" class="fill-input fill-grow" aria-label="Signatory Agent Licence"></div>
+          </td>
+          <td>
+            <div class="sig-line-top">租客簽署接受<br>Signed by the Tenant</div>
+            <div class="sig-field"><span class="lbl">姓名 Name :</span><input type="text" class="fill-input fill-grow" aria-label="Signatory Tenant Name"></div>
+            <div class="sig-field"><span class="lbl">身份證號碼 I.D.No.:</span><input type="text" class="fill-input fill-grow" aria-label="Signatory Tenant ID"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Deposit Receipt Section -->
+    <table class="receipt-table">
+      <tbody>
+        <tr>
+          <td class="receipt-left">
+            <div class="bilingual-row" style="margin-bottom: 0;">
+              <span class="field-stack">
+                <span class="zh-part">茲收到租客臨時訂金港幣</span>
+                <span class="en-part">Received from the Tenant the initial deposit in sum of HK$</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Receipt Deposit Amount">
+            </div>
+          </td>
+          <td class="receipt-right">
+            <div class="bilingual-row" style="margin-bottom: 0;">
+              <span class="field-stack">
+                <span class="zh-part">業主簽收</span>
+                <span class="en-part">Signed by the Landlord</span>
+              </span>
+              <span style="flex: 1 1 auto; border-bottom: 0.75pt solid #222222; height: 14px; margin-left: 4px;"></span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="receipt-left" style="padding-top: 5px;">
+            <div class="bilingual-row" style="margin-bottom: 0;">
+              <span class="field-stack">
+                <span class="zh-part">支票號碼</span>
+                <span class="en-part">(Cheque No.</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Cheque Number">
+              <span class="field-stack">
+                <span class="zh-part">銀行</span>
+                <span class="en-part">) Bank</span>
+              </span>
+              <input type="text" class="fill-input fill-grow" aria-label="Bank Name">
+            </div>
+          </td>
+          <td class="receipt-right" style="padding-top: 5px;">
+            <div class="sig-field"><span class="lbl">姓名 Name :</span><input type="text" class="fill-input fill-grow" aria-label="Receipt Landlord Name"></div>
+            <div class="sig-field"><span class="lbl">身份證號碼 I.D.No.:</span><input type="text" class="fill-input fill-grow" aria-label="Receipt Landlord ID"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="page-footer">
+    <span>* 刪去不適用者 &nbsp;&nbsp;&nbsp;&nbsp; To be deleted where inapplicable</span>
+    <span></span>
+  </footer>
+</section>
+
+</form>
+
+<script>
+  (function () {
+    // Hidden canvas context for exact pixel width measurement of typed text
+    const measureCanvas = document.createElement('canvas');
+    const measureCtx = measureCanvas.getContext('2d');
+
+    const MAX_FONT_PX = 11.2; // ~8.4pt
+    const MIN_FONT_PX = 5.5;  // Scales down gracefully for very long strings
+
+    function adjustFontSize(input) {
+      if (!input) return;
+      const val = input.value;
+      if (!val) {
+        input.style.fontSize = MAX_FONT_PX + 'px';
+        return;
+      }
+
+      const style = window.getComputedStyle(input);
+      const padLeft = parseFloat(style.paddingLeft) || 0;
+      const padRight = parseFloat(style.paddingRight) || 0;
+      const availableWidth = input.clientWidth - padLeft - padRight - 2;
+
+      if (availableWidth <= 0) return;
+
+      const fontFamily = style.fontFamily || 'sans-serif';
+      const fontWeight = style.fontWeight || '500';
+
+      let currentSize = MAX_FONT_PX;
+      measureCtx.font = `${fontWeight} ${currentSize}px ${fontFamily}`;
+      let textWidth = measureCtx.measureText(val).width;
+
+      if (textWidth > availableWidth) {
+        const ratio = availableWidth / textWidth;
+        currentSize = Math.max(MIN_FONT_PX, Math.floor(currentSize * ratio * 10) / 10);
+        // Double-check measurement at scaled size
+        measureCtx.font = `${fontWeight} ${currentSize}px ${fontFamily}`;
+        while (currentSize > MIN_FONT_PX && measureCtx.measureText(val).width > availableWidth) {
+          currentSize = Math.max(MIN_FONT_PX, Math.round((currentSize - 0.3) * 10) / 10);
+          measureCtx.font = `${fontWeight} ${currentSize}px ${fontFamily}`;
+        }
+      }
+
+      input.style.fontSize = currentSize + 'px';
+    }
+
+    // Attach auto-scaling to all inputs
+    const inputs = Array.from(document.querySelectorAll('.fill-input'));
+    inputs.forEach((input) => {
+      input.addEventListener('input', () => adjustFontSize(input));
+    });
+
+    // Recompute font sizes on resize and before printing
+    window.addEventListener('resize', () => inputs.forEach(adjustFontSize));
+    window.addEventListener('beforeprint', () => inputs.forEach(adjustFontSize));
+
+    // Interactive strikethrough toggles for (* 刪去不適用者) options
+    const strikeOpts = Array.from(document.querySelectorAll('.strike-opt'));
+    strikeOpts.forEach((opt) => {
+      opt.title = '點擊切換刪除線 Click to toggle strikethrough';
+      opt.addEventListener('click', () => {
+        opt.classList.toggle('struck');
+      });
+    });
+
+    // Toolbar actions
+    const btnPrint = document.getElementById('btnPrint');
+    const btnReset = document.getElementById('btnReset');
+    const resetModal = document.getElementById('resetModal');
+    const btnCancelReset = document.getElementById('btnCancelReset');
+    const btnConfirmReset = document.getElementById('btnConfirmReset');
+    const form = document.getElementById('agreementForm');
+
+    btnPrint.addEventListener('click', () => {
+      inputs.forEach(adjustFontSize);
+      window.print();
+    });
+
+    btnReset.addEventListener('click', () => {
+      resetModal.classList.add('open');
+    });
+
+    btnCancelReset.addEventListener('click', () => {
+      resetModal.classList.remove('open');
+    });
+
+    resetModal.addEventListener('click', (e) => {
+      if (e.target === resetModal) {
+        resetModal.classList.remove('open');
+      }
+    });
+
+    btnConfirmReset.addEventListener('click', () => {
+      form.reset();
+      inputs.forEach((input) => {
+        input.style.fontSize = MAX_FONT_PX + 'px';
+      });
+      strikeOpts.forEach((opt) => opt.classList.remove('struck'));
+      resetModal.classList.remove('open');
+    });
+  })();
+</script>
+
+</body>
+</html>
