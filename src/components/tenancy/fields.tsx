@@ -10,6 +10,7 @@ const widthClass = {
   sm: "w-sm",
   md: "w-md",
   lg: "w-lg",
+  xl: "w-xl",
   remark: "remark-input",
 } as const;
 

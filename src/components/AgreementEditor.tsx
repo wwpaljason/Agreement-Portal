@@ -2,9 +2,11 @@
 
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition, type ReactNode } from "react";
 import { deleteAgreementAction } from "@/app/actions";
+import { getTemplate } from "@/lib/templates/registry";
 import type { Role } from "@/lib/templates/types";
 import { EditorProvider, type EditorState } from "./editor-context";
 import { MobileForm } from "./MobileForm";
+import { TenancyAgreementDocument } from "./tenancy-agreement/TenancyAgreementDocument";
 import { TenancyDocument } from "./tenancy/TenancyDocument";
 
 type Actor = "agent" | "landlord" | "tenant";
@@ -42,10 +44,12 @@ function touchSpan(touches: TouchList) {
 function ScaledDoc({
   fitWidth,
   onFitWidth,
+  pages,
   children,
 }: {
   fitWidth: boolean;
   onFitWidth: (fitWidth: boolean) => void;
+  pages: number;
   children: ReactNode;
 }) {
   const frameRef = useRef<HTMLDivElement>(null);
@@ -215,7 +219,7 @@ function ScaledDoc({
       <div
         ref={scrollerRef}
         style={{
-          height: (PAGE_H * 2 + 18) * scale,
+          height: (PAGE_H * pages + 18 * Math.max(0, pages - 1)) * scale,
           width: "100%",
           maxWidth: "100%",
           minWidth: 0,
@@ -345,12 +349,23 @@ export function AgreementEditor(props: Props) {
       if (props.actor !== "agent") return;
       setStrikes((current) => {
         const next = !current[id];
-        dirtyStrikes.current[id] = next;
-        return { ...current, [id]: next };
+        const patch: Record<string, boolean> = { [id]: next };
+        if (next) {
+          const group = getTemplate(props.templateSlug)
+            ?.sections.flatMap((section) => section.strikes ?? [])
+            .find((item) => item.exclusive && item.options.some((option) => option.id === id));
+          if (group) {
+            for (const option of group.options) {
+              if (option.id !== id) patch[option.id] = false;
+            }
+          }
+        }
+        Object.assign(dirtyStrikes.current, patch);
+        return { ...current, ...patch };
       });
       schedule();
     },
-    [props.actor, schedule],
+    [props.actor, props.templateSlug, schedule],
   );
 
   const editor = useMemo<EditorState>(
@@ -385,6 +400,9 @@ export function AgreementEditor(props: Props) {
 
   const landlordUrl = origin && props.landlordToken ? `${origin}/p/${props.landlordToken}` : "";
   const tenantUrl = origin && props.tenantToken ? `${origin}/p/${props.tenantToken}` : "";
+  const pageCount = getTemplate(props.templateSlug)?.pages ?? 2;
+  const visual =
+    props.templateSlug === "provisional-tenancy" || props.templateSlug === "tenancy-agreement";
 
   return (
     <EditorProvider value={editor}>
@@ -464,9 +482,9 @@ export function AgreementEditor(props: Props) {
 
         {view === "form" ? (
           <MobileForm />
-        ) : props.templateSlug === "provisional-tenancy" ? (
-          <ScaledDoc fitWidth={fitWidth} onFitWidth={setFitWidth}>
-            <TenancyDocument mode="edit" />
+        ) : visual ? (
+          <ScaledDoc fitWidth={fitWidth} onFitWidth={setFitWidth} pages={pageCount}>
+            <TemplateDocument slug={props.templateSlug} mode="edit" />
           </ScaledDoc>
         ) : (
           <MobileForm />
@@ -474,7 +492,7 @@ export function AgreementEditor(props: Props) {
       </div>
 
       <div className="print-root" aria-hidden="true">
-        {props.templateSlug === "provisional-tenancy" && <TenancyDocument mode="print" />}
+        {visual && <TemplateDocument slug={props.templateSlug} mode="print" />}
       </div>
 
       {confirmDelete && (
@@ -505,6 +523,12 @@ export function AgreementEditor(props: Props) {
       )}
     </EditorProvider>
   );
+}
+
+function TemplateDocument({ slug, mode }: { slug: string; mode: "edit" | "print" }) {
+  if (slug === "tenancy-agreement") return <TenancyAgreementDocument mode={mode} />;
+  if (slug === "provisional-tenancy") return <TenancyDocument mode={mode} />;
+  return null;
 }
 
 function ShareRow({

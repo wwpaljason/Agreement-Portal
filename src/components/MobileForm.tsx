@@ -41,30 +41,36 @@ export function MobileForm() {
                 </label>
               );
             })}
-            {section.strikes?.map((group) => (
-              <div key={group.id} className="strike-group">
-                <div className="m-zh">{group.labelZh}</div>
-                <div className="m-en">{group.labelEn}. Strike what does not apply.</div>
-                <div className="strike-options">
-                  {group.options.map((option) => {
-                    const struck = !!editor.strikes[option.id];
-                    return (
-                      <button
-                        type="button"
-                        key={option.id}
-                        className={struck ? "struck" : ""}
-                        aria-pressed={struck}
-                        disabled={!editor.canEditStrikes}
-                        onClick={() => editor.toggleStrike(option.id)}
-                      >
-                        <span>{option.zh}</span>
-                        <span>{option.en}</span>
-                      </button>
-                    );
-                  })}
+            {section.strikes?.map((group) => {
+              const check = group.kind === "check";
+              return (
+                <div key={group.id} className="strike-group">
+                  <div className="m-zh">{group.labelZh}</div>
+                  <div className="m-en">
+                    {group.labelEn}
+                    {check ? (group.exclusive ? ". Tick one." : ". Tick what applies.") : ". Strike what does not apply."}
+                  </div>
+                  <div className="strike-options">
+                    {group.options.map((option) => {
+                      const on = !!editor.strikes[option.id];
+                      return (
+                        <button
+                          type="button"
+                          key={option.id}
+                          className={check ? (on ? "checked" : "") : on ? "struck" : ""}
+                          aria-pressed={on}
+                          disabled={!editor.canEditStrikes}
+                          onClick={() => editor.toggleStrike(option.id)}
+                        >
+                          <span>{option.zh}</span>
+                          <span>{option.en}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </section>
         );
       })}

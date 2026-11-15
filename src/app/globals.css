@@ -203,6 +203,7 @@ html.doc-pinch body {
 }
 .strike-options button span:last-child { font-weight: 500; color: var(--muted); font-size: 12px; }
 .strike-options button.struck { text-decoration: line-through; color: #78716c; background: #fafaf9; }
+.strike-options button.checked { border-color: #1d4ed8; background: #eff6ff; color: #1e3a8a; }
 .strike-options button:disabled { cursor: default; opacity: 0.85; }
 
 .role-row {

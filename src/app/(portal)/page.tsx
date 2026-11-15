@@ -44,7 +44,7 @@ export default async function HomePage() {
       {rows.length === 0 ? (
         <div className="card">
           <h2>Nothing here yet</h2>
-          <p>Create a provisional tenancy agreement, then send the party links.</p>
+          <p>Create an agreement, then send the party links.</p>
         </div>
       ) : (
         <div className="agreement-list">

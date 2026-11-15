@@ -1,7 +1,8 @@
 import { provisionalTenancy } from "./provisional-tenancy";
+import { tenancyAgreement } from "./tenancy-agreement";
 import type { Role, TemplateDef } from "./types";
 
-export const templates: TemplateDef[] = [provisionalTenancy];
+export const templates: TemplateDef[] = [provisionalTenancy, tenancyAgreement];
 
 export function getTemplate(slug: string): TemplateDef | null {
   return templates.find((template) => template.slug === slug) ?? null;
