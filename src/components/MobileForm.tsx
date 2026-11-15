@@ -11,10 +11,7 @@ export function MobileForm() {
 
   return (
     <div className="mobile-form">
-      <p className="form-note">
-        Fields are full size here. Document view is the printed layout. A red underline means that line will be clipped
-        on the 2-page PDF.
-      </p>
+
       {template.sections.map((section) => {
         if (!section.fields.length && !section.strikes?.length) return null;
         return (
