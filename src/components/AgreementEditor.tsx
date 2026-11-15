@@ -255,23 +255,18 @@ export function AgreementEditor(props: Props) {
             </div>
             {view === "document" && (
               <button type="button" className="btn" onClick={() => setFitWidth((value) => !value)}>
-                {fitWidth ? "Readable size" : "Fit page"}
+                {fitWidth ? "Full size" : "Fit size"}
               </button>
             )}
-            <button type="button" className="btn primary" onClick={printPdf}>
+            {props.actor === "agent" &&(<button type="button" className="btn primary" onClick={printPdf}>
               Export PDF
-            </button>
+            </button>)}
             {props.actor === "agent" && props.agreementId && (
               <button type="button" className="btn danger" onClick={() => setConfirmDelete(true)}>
                 Delete
               </button>
             )}
           </div>
-          <p className="editor-hint">
-            {props.actor === "agent"
-              ? "You can edit every field. Colours show who the party link is allowed to change. Export is always 2 A4 pages — set margins to None and turn off headers."
-              : `You can edit ${mine} ${props.actor} fields. Everything else is locked. Export is always 2 A4 pages.`}
-          </p>
           {props.actor === "agent" && (
             <div className="legend">
               <span className="role-pill role-agent">Agent</span>
